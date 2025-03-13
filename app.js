@@ -49,8 +49,8 @@ function addParticipant() {
     participantNameInput.value = '';
     participantEmailInput.value = '';
     
-    // Habilitar el botón de sorteo si hay al menos 3 participantes
-    drawNamesBtn.disabled = participants.length < 3;
+    // Habilitar el botón de sorteo si hay al menos 4 participantes
+    drawNamesBtn.disabled = participants.length < 4;
 }
 
 // Renderizar la lista de participantes
@@ -78,41 +78,66 @@ function removeParticipant(id) {
     participants = participants.filter(p => p.id !== id);
     renderParticipantsList();
     
-    // Deshabilitar el botón de sorteo si hay menos de 3 participantes
-    drawNamesBtn.disabled = participants.length < 3;
+    // Deshabilitar el botón de sorteo si hay menos de 4 participantes
+    drawNamesBtn.disabled = participants.length < 4;
 }
 
 // Realizar el sorteo
 function drawNames() {
-    if (participants.length < 3) {
-        alert('Se necesitan al menos 3 participantes para realizar el sorteo.');
+    if (participants.length < 4) {
+        alert('Se necesitan al menos 4 participantes para realizar el sorteo.');
         return;
     }
     
-    // Algoritmo de Fisher-Yates para mezclar el array
-    const shuffled = [...participants];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
+    // Intentar realizar un sorteo válido (máximo 100 intentos)
+    let validAssignment = false;
+    let attempts = 0;
     
-    // Asignar amigos secretos
-    assignments = [];
-    for (let i = 0; i < participants.length; i++) {
-        const giver = participants[i];
-        const receiver = (i === participants.length - 1) ? shuffled[0] : shuffled[i + 1];
+    while (!validAssignment && attempts < 100) {
+        attempts++;
         
-        // Evitar que una persona se seleccione a sí misma
-        if (giver.id === receiver.id) {
-            // Si ocurre, intercambiar con el siguiente
-            const nextIdx = (i + 1) % participants.length;
-            [shuffled[i + 1], shuffled[nextIdx]] = [shuffled[nextIdx], shuffled[i + 1]];
+        // Crear una copia barajada para los receptores
+        const receivers = [...participants];
+        for (let i = receivers.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [receivers[i], receivers[j]] = [receivers[j], receivers[i]];
         }
         
-        assignments.push({
-            giver: giver,
-            receiver: (i === participants.length - 1) ? shuffled[0] : shuffled[i + 1]
-        });
+        // Crear asignaciones temporales
+        const tempAssignments = [];
+        let isValid = true;
+        
+        for (let i = 0; i < participants.length; i++) {
+            // Si alguien se asigna a sí mismo, marcar como inválido
+            if (participants[i].id === receivers[i].id) {
+                isValid = false;
+                break;
+            }
+            
+            tempAssignments.push({
+                giver: participants[i],
+                receiver: receivers[i]
+            });
+        }
+        
+        // Si todas las asignaciones son válidas, guardarlas
+        if (isValid) {
+            validAssignment = true;
+            assignments = tempAssignments;
+        }
+    }
+    
+    // Si no se pudo encontrar una asignación válida después de 100 intentos,
+    // usar un algoritmo determinístico (cada persona regala a la siguiente en la lista)
+    if (!validAssignment) {
+        assignments = [];
+        for (let i = 0; i < participants.length; i++) {
+            const nextIndex = (i + 1) % participants.length;
+            assignments.push({
+                giver: participants[i],
+                receiver: participants[nextIndex]
+            });
+        }
     }
     
     // Mostrar resultados
@@ -158,3 +183,20 @@ function resetApp() {
     // Deshabilitar el botón de sorteo
     drawNamesBtn.disabled = true;
 }
+
+// Añadir una nota informativa sobre el mínimo de participantes
+document.addEventListener('DOMContentLoaded', function() {
+    // Crear elemento para mostrar la nota
+    const noteDiv = document.createElement('div');
+    noteDiv.className = 'info-note';
+    noteDiv.innerHTML = '<p><strong>Nota:</strong> Se requieren al menos 4 participantes para garantizar un sorteo justo donde nadie se regale a sí mismo.</p>';
+    
+    // Insertar la nota después del título
+    const title = document.querySelector('h1') || document.querySelector('header');
+    if (title && title.parentNode) {
+        title.parentNode.insertBefore(noteDiv, title.nextSibling);
+    } else {
+        // Si no hay título, insertar al principio del body
+        document.body.insertBefore(noteDiv, document.body.firstChild);
+    }
+});
