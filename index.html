@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo de Amigo Secreto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="title-container">
+        <h1><span class="festive-icon">🎁</span> Sorteo de Amigo Secreto <span class="festive-icon">🎁</span></h1>
+    </div>
+    
+    <div class="container">
+        <div id="setupPhase">
+            <div class="input-group">
+                <label for="participantName">Nombre del participante:</label>
+                <input type="text" id="participantName" placeholder="Escribe el nombre del participante">
+            </div>
+            
+            <div class="input-group">
+                <label for="participantEmail">Email o teléfono (opcional):</label>
+                <input type="text" id="participantEmail" placeholder="Email o teléfono para contacto">
+            </div>
+            
+            <button id="addParticipant">Añadir Participante</button>
+            
+            <div id="participantsList">
+                <h3>Lista de Participantes</h3>
+                <div id="participantsContainer"></div>
+            </div>
+            
+            <button id="drawNames" disabled>Realizar Sorteo</button>
+        </div>
+        
+        <div id="resultPhase" class="result">
+            <h2>🎉 ¡Sorteo Completado! 🎉</h2>
+            <p>El sorteo del amigo secreto se ha realizado con éxito.</p>
+            
+            <button id="showAssignments">Mostrar Asignaciones</button>
+            
+            <div id="assignments" style="display: none;"></div>
+            
+            <button id="resetBtn">Reiniciar Sorteo</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
