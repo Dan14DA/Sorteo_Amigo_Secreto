@@ -3,7 +3,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-image: url('img/background.jpg'); /* Puedes añadir tu propia imagen a la carpeta img */
+    background-image: url('background.jpg'); /* Puedes añadir tu propia imagen a la carpeta img */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
