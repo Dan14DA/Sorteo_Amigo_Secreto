@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Crear elemento para mostrar la nota
     const noteDiv = document.createElement('div');
     noteDiv.className = 'info-note';
-    noteDiv.innerHTML = '<p><strong>Nota:</strong> Se requieren al menos 4 participantes para garantizar un sorteo justo donde nadie se regale a sí mismo.</p>';
+    noteDiv.innerHTML = '<p><strong>Nota:</strong> Se requieren al menos 4 participantes para garantizar un sorteo, donde nadie se regale a sí mismo.</p>';
     
     // Insertar la nota después del título
     const title = document.querySelector('h1') || document.querySelector('header');
