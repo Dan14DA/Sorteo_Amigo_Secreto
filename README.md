@@ -18,8 +18,6 @@ Una aplicación web simple para organizar sorteos de Amigo Secreto (Secret Santa
 Para que el sorteo funcione correctamente:
 - Se requieren al menos 4 participantes
 - Cada participante debe tener un nombre único
-- Para utilizar la función de correo, se necesita configurar un servidor Node.js
-
 
 3.- Uso
 
@@ -27,7 +25,6 @@ Para que el sorteo funcione correctamente:
 2. Presiona "Agregar Participante" para añadirlo a la lista
 3. Una vez que hayas añadido a todos los participantes (mínimo 4), presiona "Realizar Sorteo"
 4. Visualiza las asignaciones haciendo clic en "Mostrar Asignaciones"
-5. Si configuraste el servidor de correo, usa "Enviar Asignaciones por Correo" para notificar a cada participante
 
 4.- Contacto
 
